@@ -24,7 +24,7 @@ build: .GOPATH/.ok
 
 ##### =====> Utility targets <===== #####
 
-.PHONY: clean test list cover format
+.PHONY: clean test list vlist govendor cover format
 
 clean:
 	$Q rm -rf bin .GOPATH
@@ -43,6 +43,12 @@ endif
 
 list: .GOPATH/.ok
 	@echo $(allpackages)
+
+vlist: .GOPATH/.ok
+	cd $(CURDIR)/.GOPATH/src/$(IMPORT_PATH) && GOPATH=$(CURDIR)/.GOPATH govendor list
+
+govendor: .GOPATH/.ok
+	cd $(CURDIR)/.GOPATH/src/$(IMPORT_PATH) && GOPATH=$(CURDIR)/.GOPATH govendor shell
 
 cover: bin/gocovmerge .GOPATH/.ok
 	@echo "NOTE: make cover does not exit 1 on failure, don't use it to check for tests success!"
